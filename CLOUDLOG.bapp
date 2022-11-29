@@ -1,0 +1,73 @@
+BAPP=4.0
+ID=CLOUDLOG
+Name=CloudLog
+Comment='web based logging program'
+Ver=0
+localVer=0
+
+
+INSTALL(){
+
+#https://github.com/magicbug/Cloudlog/wiki/Installation
+echo "##################"
+echo "installing Cloud log"
+echo "##################"
+
+if ! hash apache2 2>/dev/null; then
+	echo "installing dependency for checklist-generator - apache"
+	sudo -A apt install -y apache2
+fi
+
+if ! hash mysql 2>/dev/null; then
+	echo "installing dependency for checklist-generator - mysql-common"
+	sudo -A apt install -y mysql-common
+fi
+
+if ! hash mariadb 2>/dev/null; then
+	echo "installing dependency for checklist-generator - mariadb"
+	sudo -A apt install -y mariadb-common
+fi
+
+if ! hash php 2>/dev/null; then
+	echo "installing dependency for checklist-generator - php"
+	sudo -A apt install -y php7.4 php7.4-curl php7.4-mysql php7.4-mbstring php7.4-xml
+fi
+
+
+cd ${BUILDDIR} || return
+git clone https://github.com/magicbug/Cloudlog.git
+mkdir -p /var/www/html
+sudo mv Cloudlog/ /var/www/html/
+sudo chown -R root:www-data /var/www/html/Cloudlog/application/config/
+sudo chown -R root:www-data /var/www/html/Cloudlog/assets/qslcard/
+sudo chown -R root:www-data /var/www/html/Cloudlog/backup/
+sudo chown -R root:www-data /var/www/html/Cloudlog/updates/
+sudo chown -R root:www-data /var/www/html/Cloudlog/uploads/
+sudo chown -R root:www-data /var/www/html/Cloudlog/images/eqsl_card_images/
+sudo chmod -R g+rw /var/www/html/Cloudlog/application/config/
+sudo chmod -R g+rw /var/www/html/Cloudlog/assets/qslcard/
+sudo chmod -R g+rw /var/www/html/Cloudlog/backup/
+sudo chmod -R g+rw /var/www/html/Cloudlog/updates/
+sudo chmod -R g+rw /var/www/html/Cloudlog/uploads/
+sudo chmod -R g+rw /var/www/html/Cloudlog/images/eqsl_card_images/
+
+
+}
+
+REMOVE(){
+if [ -f /usr/local/bin/checklist-generator ]; then
+	sudo -A rm /usr/local/bin/checklist-generator
+	sudo -A rm /usr/local/share/applications/checklist.desktop
+fi
+
+}
+
+VERSION(){
+if [ -f /usr/local/bin/checklist-generator ]; then
+	CURRENT=$(grep VERSION /usr/local/bin/checklist-generator | head -1 | sed 's/VERSION=//')
+	NEWVER=$(curl -s https://raw.githubusercontent.com/km4ack/pi-scripts/master/checklist-generator | grep VERSION | head -1 | sed 's/VERSION=//')
+else
+	CURRENT=0
+	NEWVER=$(curl -s https://raw.githubusercontent.com/km4ack/pi-scripts/master/checklist-generator | grep VERSION | head -1 | sed 's/VERSION=//')
+fi
+}
