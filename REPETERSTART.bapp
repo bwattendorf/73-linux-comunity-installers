@@ -1,14 +1,24 @@
-#https://github.com/shuyuan-liu/sdr-tutorials
+#https://github.com/magicbug/Cloudlog/wiki/Installation
 echo "##################"
-echo "installing QTEL ECHOLINK"
+echo "installing Repeter Start"
 echo "##################"
 
-if ! hash qtel 2>/dev/null; then
-	echo "installing qtel"
-	sudo -A apt install -y qtel
+if ! hash apache2 2>/dev/null; then
+	echo "installing dependency for Cloud-Log - apache"
+	sudo -A apt install -y apache2
 fi
 
 
+#### install from cq linux
+REPEAT(){
+sudo apt install -y gir1.2-osmgpsmap-1.0 gir1.2-geoclue-2.0 libosmgpsmap-1.0-1
+REPEAT_LATEST=$(curl -s https://sourceforge.net/projects/repeater-start/files/ | grep all.deb | head -1 | sed 's/.*repeater/repeater/;s/".*//')
+cd ${HOME}/Downloads
+wget https://sourceforge.net/projects/repeater-start/files/$REPEAT_LATEST
+sudo dpkg -i $REPEAT_LATEST
+}
+
+### install from cq linux 
 
 
 REMOVE(){

@@ -1,6 +1,6 @@
-#https://github.com/magicbug/Cloudlog/wiki/Installation
+#https://github.com/hmatuschek/qdmr.git
 echo "##################"
-echo "installing Cloud log"
+echo "installing QDMR"
 echo "##################"
 
 if ! hash apache2 2>/dev/null; then
@@ -8,42 +8,43 @@ if ! hash apache2 2>/dev/null; then
 	sudo -A apt install -y apache2
 fi
 
-if ! hash mariadb 2>/dev/null; then
-	echo "installing dependency for Cloud-Log - mariadb"
-	sudo -A apt install -y mariadb-common
-	sudo -A apt install -y mariadb-client
-	sudo -A apt install -y mariadb-server
-fi
 
-if ! hash php8 2>/dev/null; then
-	echo "installing dependency for Cloud-Log - php"
-	sudo -A apt install software-properties-common -y
-	sudo -A add-apt-repository ppa:ondrej/php -y
-	sudo -A apt-get update
-	sudo -A apt install -y php8.0 php8.0-curl php8.0-mysql php8.0-mbstring php8.0-xml
-	sudo -A apt install -y mariadb-client-core-10.6
-fi
+#### install from cq linux 
+#https://kd9cpb.com/qdmr
+	echo "##################"
+	echo "installing QDMR"
+	echo "##################"
+	sudo apt-get install -y build-essential cmake  
+	sudo apt-get install -y libusb-1.0-0-dev qtbase5-dev qttools5-dev qttools5-dev-tools qtpositioning5-dev libqt5serialport5-dev libyaml-cpp-dev
+	cd /tmp || return
+	git clone https://github.com/hmatuschek/qdmr.git
+	cd qdmr || return
+	mkdir -p build
+	cd build || return
+	sudo cmake .. -DCMAKE_INSTALL_PREFIX=/usr/
+	sudo make || return
+	sudo make install || return
+	sudo rm -rf /tmp/qdmr
+	
+	#create menu item and download icon	
+cat >${HOME}/Downloads/qdmr.desktop <<EOF
+	[Desktop Entry]
+	Name=QDMR
+	Comment=A universal code-plug programming software for DMR radios.
+	Exec=qdmr
+	Icon=qdmr.png
+	Terminal=false
+	Type=Application
+	Categories=HamRadio
+	
+EOF
 
-
-cd ${BUILDDIR} || return
-git clone https://github.com/magicbug/Cloudlog.git
-mkdir -p /var/www/html
-sudo mv Cloudlog/ /var/www/html/
-sudo chown -R root:www-data /var/www/html/Cloudlog/application/config/
-sudo chown -R root:www-data /var/www/html/Cloudlog/assets/qslcard/
-sudo chown -R root:www-data /var/www/html/Cloudlog/backup/
-sudo chown -R root:www-data /var/www/html/Cloudlog/updates/
-sudo chown -R root:www-data /var/www/html/Cloudlog/uploads/
-sudo chown -R root:www-data /var/www/html/Cloudlog/images/eqsl_card_images/
-sudo chmod -R g+rw /var/www/html/Cloudlog/application/config/
-sudo chmod -R g+rw /var/www/html/Cloudlog/assets/qslcard/
-sudo chmod -R g+rw /var/www/html/Cloudlog/backup/
-sudo chmod -R g+rw /var/www/html/Cloudlog/updates/
-sudo chmod -R g+rw /var/www/html/Cloudlog/uploads/
-sudo chmod -R g+rw /var/www/html/Cloudlog/images/eqsl_card_images/
-
-
+	sudo mv ${HOME}/Downloads/qdmr.desktop /usr/share/applications/
+	sudo mv /usr/share/icons/hicolor/32x32/qdmr.png /usr/share/pixmaps/qdmr.png
+	
 }
+### install from cq linux 
+
 
 REMOVE(){
 if [ -f /usr/local/bin/checklist-generator ]; then
