@@ -19,8 +19,8 @@ echo "##################"
 
 #### install from cq linux 
 #https://kd9cpb.com/qdmr
-# sudo apt install -y cmake g++ libexpat1-dev libssl-dev libdb++-dev libcurl4-openssl-dev libwxgtk3.0-gtk3-dev zlib1g-dev
-sudo apt install -y build-essential libcurl4-openssl-dev libdb-dev libexpat1-dev liblmdb-dev libssl-dev libwxgtk3.0-dev zlib1g-dev
+sudo apt install -y cmake g++ libexpat1-dev libssl-dev libdb++-dev libcurl4-openssl-dev libwxgtk3.0-gtk3-dev zlib1g-dev libdb-dev liblmdb-dev
+#sudo apt install -y build-essential cmake g++ libcurl4-openssl-dev libdb-dev libexpat1-dev liblmdb-dev libssl-dev libwxgtk3.0-dev zlib1g-dev
 cd ${BUILDDIR} || return
 CUR=$(curl -s http://www.arrl.org/tqsl-download | grep "for Linux" | sed 's/.*TQSL //' | awk '{print $1}')
 wget http://www.arrl.org/tqsl/tqsl-${CUR}.tar.gz
