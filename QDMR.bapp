@@ -1,32 +1,41 @@
+BAPP=4.0
+ID=QDMR
+Name=QDMR
+Comment='DMR radio programer'
+Ver=0
+localVer=0
+
+
+INSTALL(){
+
+
+
+
 #https://github.com/hmatuschek/qdmr.git
 echo "##################"
 echo "installing QDMR"
 echo "##################"
 
-if ! hash apache2 2>/dev/null; then
-	echo "installing dependency for Cloud-Log - apache"
-	sudo -A apt install -y apache2
-fi
 
 
 #### install from cq linux 
 #https://kd9cpb.com/qdmr
-	echo "##################"
-	echo "installing QDMR"
-	echo "##################"
-	sudo apt-get install -y build-essential cmake  
-	sudo apt-get install -y libusb-1.0-0-dev qtbase5-dev qttools5-dev qttools5-dev-tools qtpositioning5-dev libqt5serialport5-dev libyaml-cpp-dev
-	cd /tmp || return
-	git clone https://github.com/hmatuschek/qdmr.git
-	cd qdmr || return
-	mkdir -p build
-	cd build || return
-	sudo cmake .. -DCMAKE_INSTALL_PREFIX=/usr/
-	sudo make || return
-	sudo make install || return
-	sudo rm -rf /tmp/qdmr
+echo "##################"
+echo "installing QDMR"
+echo "##################"
+sudo apt-get install -y build-essential cmake  
+sudo apt-get install -y libusb-1.0-0-dev qtbase5-dev qttools5-dev qttools5-dev-tools qtpositioning5-dev libqt5serialport5-dev libyaml-cpp-dev
+cd /tmp || return
+git clone https://github.com/hmatuschek/qdmr.git
+cd qdmr || return
+mkdir -p build
+cd build || return
+sudo cmake .. -DCMAKE_INSTALL_PREFIX=/usr/
+sudo make || return
+sudo make install || return
+sudo rm -rf /tmp/qdmr
 	
-	#create menu item and download icon	
+#create menu item and download icon	
 cat >${HOME}/Downloads/qdmr.desktop <<EOF
 	[Desktop Entry]
 	Name=QDMR
@@ -39,8 +48,8 @@ cat >${HOME}/Downloads/qdmr.desktop <<EOF
 	
 EOF
 
-	sudo mv ${HOME}/Downloads/qdmr.desktop /usr/share/applications/
-	sudo mv /usr/share/icons/hicolor/32x32/qdmr.png /usr/share/pixmaps/qdmr.png
+sudo mv ${HOME}/Downloads/qdmr.desktop /usr/share/applications/
+sudo mv /usr/share/icons/hicolor/32x32/qdmr.png /usr/share/pixmaps/qdmr.png
 	
 }
 ### install from cq linux 
