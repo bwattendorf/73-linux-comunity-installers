@@ -1,12 +1,17 @@
+BAPP=4.0
+ID=REPETERSTART
+Name=REPETER START
+Comment='repeter directory'
+Ver=0
+localVer=0
+
+
+INSTALL(){
+
 #https://github.com/magicbug/Cloudlog/wiki/Installation
 echo "##################"
 echo "installing Repeter Start"
 echo "##################"
-
-if ! hash apache2 2>/dev/null; then
-	echo "installing dependency for Cloud-Log - apache"
-	sudo -A apt install -y apache2
-fi
 
 
 #### install from cq linux
